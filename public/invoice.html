@@ -1,0 +1,32 @@
+<form name="invoiceForm">
+	<h3>Invoice <span ng-bind="vm.customer.name"></span></h3>
+	
+	<label>Customer: </label>
+	<select ng-model="vm.customer" ng-options="customer.name for customer in vm.customers" ng-change="vm.updateCustomer()">
+	</select><br>
+	<label>Products: </label>
+	<select class="form-control" size="10" ng-model="vm.productSelected" ng-options="product.name for product in vm.products" ng-change="vm.selectProduct(vm.productSelected)">
+	</select>
+	<table class="table">
+		<tr ng-repeat="item in vm.invoiceItems">
+			<td ng-bind="$index+1"></td>
+			<td ng-bind="item.name"></td>
+			<td ng-bind="item.price"></td>
+			<td>
+				<input type="text" ng-model="item.quantity" ng-model-options="{debounce: 1000}" ng-change="vm.updateItem(item)">
+			</td>
+			<td>
+				<button class="btn btn-danger btn-xs" ng-click="vm.deselectProduct(item)">X</button>
+			</td>
+		</tr>
+		<tr>
+			<td>Discount: </td>
+			<td><input type="text" ng-model="vm.invoice.discount" ng-model-options="{debounce: 1000}" ng-change="vm.updateTotal()"></td>
+			<td>%</td>
+		</tr>
+		<tr>
+			<td>TOTAL: </td>
+			<td ng-bind="vm.invoice.total"></td>
+		</tr>
+	</table>
+</form>
